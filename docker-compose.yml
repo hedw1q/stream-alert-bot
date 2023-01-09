@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    image: 'stream-service:latest'
+    build:
+      context: ./stream-pubsub-service
+    container_name: stream-service
+    depends_on:
+      - db
+      - telegram
+  telegram:
+    image: 'client-app:latest'
+    container_name: telegrambot
+    build:
+      context: ./telegram
+    depends_on:
+      - db
+  db:
+    image: 'postgres:latest'
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=honeyalerts
+
+
+
