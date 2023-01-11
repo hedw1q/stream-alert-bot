@@ -20,24 +20,18 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@NamedEntityGraph(name = "Channel.subscriptions", attributeNodes = @NamedAttributeNode("subscriptions"))
 public class Channel {
     @EmbeddedId
     @JsonUnwrapped
     private ChannelId id;
-//    @Id
-//    @JsonAlias("user_id")
-//    private String id;
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "platform")
-//    @Id
-//
-//    private StreamPlatform platform;
+
     @JsonAlias({"user_name", "login"})
     @Column(name = "channel_name", nullable = false)
     @NotNull(message = "Channel name should be not empty")
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "channel", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "channel", cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<Subscription> subscriptions;
 

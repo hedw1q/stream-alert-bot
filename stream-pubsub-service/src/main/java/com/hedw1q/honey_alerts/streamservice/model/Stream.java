@@ -1,11 +1,9 @@
 package com.hedw1q.honey_alerts.streamservice.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
@@ -17,6 +15,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@NamedEntityGraph(name = "Stream.channel", attributeNodes = @NamedAttributeNode("channel"))
 public class Stream {
     @Id
     @JsonAlias({"id"})
@@ -25,8 +24,8 @@ public class Stream {
     @ManyToOne(fetch = FetchType.EAGER)
 //    @MapsId("channelId")
     @JoinColumns({
-            @JoinColumn(name="platform_id", referencedColumnName="platform_id"),
-            @JoinColumn(name="platform", referencedColumnName="platform")
+            @JoinColumn(name = "platform_id", referencedColumnName = "platform_id"),
+            @JoinColumn(name = "platform", referencedColumnName = "platform")
     })
     @JsonUnwrapped
     private Channel channel;

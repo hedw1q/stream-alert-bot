@@ -4,6 +4,7 @@ import com.hedw1q.honey_alerts.streamservice.model.Channel;
 import com.hedw1q.honey_alerts.streamservice.model.Stream;
 import com.hedw1q.honey_alerts.streamservice.model.StreamStatus;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,15 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StreamRepository extends JpaRepository<Stream, String> {
-    //    @Query(value="SELECT * " +
-//            "FROM streams " +
-//            "WHERE channel_name ILIKE :name and " +
-//            "stream_status='LIVE' and " +
-//            "id=(SELECT max(id) FROM streams where channel_name ILIKE :name)", nativeQuery = true)
+    @EntityGraph(value = "Stream.channel")
     List<Stream> findAllByStreamStatusAndChannel(StreamStatus streamStatus, Channel channel);
 
+    @EntityGraph(value = "Stream.channel")
     List<Stream> findAllByStreamStatus(StreamStatus streamStatus);
 
+    @EntityGraph(value = "Stream.channel")
     Optional<Stream> findByChannel(Channel channel);
 
     @Query(value = "UPDATE streams " +

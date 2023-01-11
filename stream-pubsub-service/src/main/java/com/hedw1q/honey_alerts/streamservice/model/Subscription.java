@@ -14,6 +14,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(name = "Subscription.channel", attributeNodes = @NamedAttributeNode("channel"))
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
